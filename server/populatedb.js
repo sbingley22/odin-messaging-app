@@ -1,9 +1,9 @@
 #! /usr/bin/env node
-const Leaderboard = require("./models/user")
-const Level = require("./models/level")
+const bcrypt = require('bcryptjs')
+const User = require('./models/user')
 
 console.log(
-  `This script populates a admin user to the database. Specified database as argument - e.g.:  
+  `This script populates the database. Specified database as argument - e.g.:  
 
   node populatedb "mongodb+srv://sbingley22:kA2AOUKQji9ce7YJ@cluster0.b9keqnj.mongodb.net/messaging-app?retryWrites=true&w=majority"
 
@@ -24,118 +24,38 @@ async function main() {
   console.log("Debug: About to connect");
   await mongoose.connect(mongoDB);
   console.log("Debug: Should be connected?");
-  await createLeaderboards();
-  await createLevels();
+  await createUsers();
   console.log("Debug: Closing mongoose");
   mongoose.connection.close();
 }
 
-async function createLeaderboard(level, name, time) {
-  const detail = { level: level, name: name, time: time }
-  const leaderboard = new Leaderboard(detail)
+async function createUser(username, password, firstname, lastname) {
+  return new Promise( (resolve, reject) => {
+    bcrypt.hash(password, 10, async (err, hashedPassword) => {
+      if (err) {
+        console.log("Error when trying to hash the password")
+        reject(err)
+      } else {
+        const userdetail = { 
+          username: username, 
+          password: hashedPassword,
+          firstname: firstname,
+          lastname: lastname
+        }
 
-  await leaderboard.save()
-  console.log(`Added leaderboard entry: ${name}`)
+        const user = new User(userdetail)
+
+        await user.save()
+        console.log(`Added user: ${username}`)
+        resolve()
+      }
+    })
+  })
 }
 
-async function createLevel(index, levelData) {
-  const detail = { level: index, levelData: levelData }
-  const level = new Level(detail)
-
-  await level.save()
-  console.log(`Added level: ${index}`)
-}
-
-async function createLevels() {
-  const data1 = [
-    {
-      character: "Dracula",
-      x: 0.75,
-      y: 0.57,
-    },
-    {
-      character: "Bat",
-      x: 0.57,
-      y: 0.22,
-    },
-    {
-      character: "Hound",
-      x: 0.55,
-      y: 0.52,
-    },
-  ]
-  const data2 = [
-    {
-      character: "Dracula",
-      x: 0.92,
-      y: 0.42,
-    },
-    {
-      character: "Bat",
-      x: 0.92,
-      y: 0.62,
-    },
-    {
-      character: "Hound",
-      x: 0.78,
-      y: 0.94,
-    },
-  ]
-  const data3 = [
-    {
-      character: "Dracula",
-      x: 0.14,
-      y: 0.52,
-    },
-    {
-      character: "Bat",
-      x: 0.82,
-      y: 0.05,
-    },
-    {
-      character: "Hound",
-      x: 0.07,
-      y: 0.37,
-    },
-  ]
-
+async function createUsers() {
   await Promise.all([
-    createLevel(
-      1,
-      data1
-    ),
-    createLevel(
-      2,
-      data2
-    ),
-    createLevel(
-      3,
-      data3
-    )
-  ])
-}
-
-async function createLeaderboards() {
-  await Promise.all([
-    createLeaderboard(
-      1,
-      "Abby",
-      80.4,
-    ),
-    createLeaderboard(
-      2,
-      "Abby",
-      74.4,
-    ),
-    createLeaderboard(
-      1,
-      "Sean",
-      70.0,
-    ),
-    createLeaderboard(
-      2,
-      "Sean",
-      89.8,
-    ),
+    createUser("user1", "password1", "Jane", "Doe"),
+    createUser("user2", "password2", "John", "Doe"),
   ])
 }

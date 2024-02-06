@@ -6,17 +6,29 @@ GET http://localhost:3000/test
 
 ###
 
-GET http://localhost:3000/api/leaderboards/1
+GET http://localhost:3000/users/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiaWF0IjoxNzA3MjMxNzI4fQ.gvel7HMGycD9ZCl08WuohHqlAnvPxR9dPgfV743H7iU
 
 ###
 
-POST http://localhost:3000/api/leaderboards
-Content-Type: application/x-www-form-urlencoded
+POST http://localhost:3000/users/login
+Content-Type: application/json
 
-level=1&name=Jess&time=90.2
+{
+  "username": "user1",
+  "password": "password1"
+}
 
 ###
 
-GET http://localhost:3000/api/leaderboards
+POST http://localhost:3000/users/sign-up
+Content-Type: application/json
 
-###
+{
+  "username": "user3",
+  "password": "password3",
+  "confirmpassword": "password3",
+  "firstname": "Rachael",
+  "lastname": "Rest"
+}
+
