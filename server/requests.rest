@@ -1,0 +1,22 @@
+GET http://localhost:3000/users/
+
+###
+
+GET http://localhost:3000/test
+
+###
+
+GET http://localhost:3000/api/leaderboards/1
+
+###
+
+POST http://localhost:3000/api/leaderboards
+Content-Type: application/x-www-form-urlencoded
+
+level=1&name=Jess&time=90.2
+
+###
+
+GET http://localhost:3000/api/leaderboards
+
+###
