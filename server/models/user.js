@@ -6,6 +6,9 @@ const UserSchema = new Schema({
   password: { type: String, required: true, maxLength: 100 },
   firstname: { type: String, required: true, maxLength: 30 },
   lastname: { type: String, required: true, maxLength: 30 },
+  profile: { type: Schema.Types.ObjectId, ref: "Profile", required: true },
+  friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  threads: [{ type: Schema.Types.ObjectId, ref: 'Thread' }]
 })
 
 module.exports = mongoose.model("User", UserSchema)
