@@ -36,7 +36,7 @@ async function main() {
   mongoose.connection.close();
 }
 
-async function createUser(index, username, password, firstname, lastname) {
+async function createUser(index, username, password, firstname, lastname, about, interests) {
   return new Promise( (resolve, reject) => {
     bcrypt.hash(password, 10, async (err, hashedPassword) => {
       if (err) {
@@ -47,8 +47,8 @@ async function createUser(index, username, password, firstname, lastname) {
         const profiledetail = {
           firstname: firstname,
           lastname: lastname,
-          about: "",
-          interests: ""
+          about: about,
+          interests: interests
         }
 
         const profile = new Profile(profiledetail)
@@ -77,9 +77,9 @@ async function createUser(index, username, password, firstname, lastname) {
 
 async function createUsers() {
   await Promise.all([
-    createUser(0, "user1", "password1", "Jane", "Doe"),
-    createUser(1, "user2", "password2", "John", "Doe"),
-    createUser(2, "user3", "password3", "Abby", "Able"),
+    createUser(0, "user1", "password1", "Jane", "Doe", "I am an unknown person. Just fill in the blanks!", "I have no interests and all the interests."),
+    createUser(1, "user2", "password2", "John", "Doe", "I am an unknown person. Just fill in the blanks!", "I have no interests and all the interests."),
+    createUser(2, "user3", "password3", "Abby", "Able", "Ready, Willing, and Able sir!", "Everything!!!"),
   ])
 }
 

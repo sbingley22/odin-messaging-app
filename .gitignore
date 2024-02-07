@@ -2,6 +2,6 @@ server/node_modules
 server/dist
 server/.env
 
-front-end/node_modules
-front-end/dist
-front-end/.env
+app/node_modules
+app/dist
+app/.env

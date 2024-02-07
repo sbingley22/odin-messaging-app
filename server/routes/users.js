@@ -28,11 +28,17 @@ function authenticateToken(req, res, next) {
   })
 }
 
-router.get('/', authenticateToken, function(req, res, next) {
+router.get('/', authenticateToken, async function(req, res, next) {
   if (req.user != null) {
-    res.send(`Welcome, ${req.user.username}!`)
+    try {
+      const user = await User.findOne({ username: req.user.username }).exec()
+      res.send({profileid: user.profile})
+    } catch(error) {
+      console.error("An error occurred:", error)
+      return res.status(500).json({ error: "Internal server error" })
+    }
   } else {
-    res.send('Please login')
+    res.status(201).send({msg: 'no token'})
   }
 });
 
@@ -151,7 +157,7 @@ router.get('/threads/:threadid', authenticateToken, async function (req, res, ne
     if (req.user != null) {
       const user = await User.findOne({ username: req.user.username }).exec()
       if (user !== null) {
-        console.log("Found user")
+        console.log(user.threads, req.params.threadid)
         if (user.threads.includes(req.params.threadid)) {
           const thread = await Thread.findById(req.params.threadid).exec()
           if (thread != null ) return res.send({ thread })
@@ -185,13 +191,34 @@ router.get('/profiles', authenticateToken, async function(req, res, next) {
   }
 });
 
+router.get('/friends', authenticateToken, async function(req,res,next) {
+  try {
+    if (req.user != null) {
+      const user = await User.findOne({ username: req.user.username }).exec();
+      if (user != null) {
+        const friends = await User.find({ _id: { $in: user.friends } }).exec();
+        const data = { friends, user }
+        res.send(data);
+      } else {
+        return res.status(400).json({ error: "Cannot find user" });
+      }
+    } else {
+      return res.status(400).json({ error: "You are not authorized!" });
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+})
+
 router.get('/threads', authenticateToken, async function (req, res, next) {
   try {
     if (req.user != null) {
       const user = await User.findOne({ username: req.user.username }).exec();
       if (user != null) {
         const threads = await Thread.find({ _id: { $in: user.threads } }).exec();
-        res.send(threads);
+        const data = { threads, user }
+        res.send(data);
       } else {
         return res.status(400).json({ error: "Cannot find user" });
       }

@@ -3,14 +3,6 @@
 ###
 
 GET http://localhost:3000/users/
-
-###
-
-GET http://localhost:3000/test
-
-###
-
-GET http://localhost:3000/users/
 Authorization: {{authToken}}
 
 ###
@@ -42,7 +34,7 @@ GET http://localhost:3000/users/profiles/65c356d17f1a75da54bd61bc
 Authorization: {{authToken}}
 
 ###
-// Get a specific profile
+// Get a specific thread
 GET http://localhost:3000/users/threads/65c356d27f1a75da54bd61cb
 Authorization: {{authToken}}
 
