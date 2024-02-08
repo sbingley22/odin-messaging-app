@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import NavigationBar from "./NavigationBar"
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom'
 
 const apiUrl = import.meta.env.VITE_API_URL
@@ -56,17 +56,22 @@ const Profile = ({ profileId }) => {
       <Container>
         <Row>
           <Col>
-            <h2 style={{marginBottom: "40px"}}>{`${user.firstname} ${user.lastname}`}</h2>
+            <h2 style={{marginBottom: "4px"}}>{`${user.firstname} ${user.lastname}`}</h2>
           </Col>
         </Row>
         <Row>
           <Col>
+            <Image src={user.image} className="profile-image" roundedCircle fluid />
+          </Col>
+        </Row>
+        <Row>
+          <Col style={{ backgroundColor: "#f2f2f2", padding: "10px", borderRadius: "5px", marginTop: "10px" }}>
             <h5>Interests</h5>
             <p>{user.interests}</p>
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col style={{ backgroundColor: "#f2f2f2", padding: "10px", borderRadius: "5px", marginTop: "10px" }}>
             <h5>About</h5>
             <p>{user.about}</p>
           </Col>

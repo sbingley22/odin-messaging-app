@@ -5,6 +5,8 @@ import Threads from "./components/Threads"
 import Profile from "./components/Profile"
 import Thread from "./components/Thread"
 import Friends from "./components/Friends"
+import SignUp from "./components/SignUp"
+import NewThread from "./components/NewThread"
 
 const Router = () => {
   const router = createBrowserRouter([
@@ -14,8 +16,16 @@ const Router = () => {
       errorElement: <ErrorPage />,
     },
     {
+      path: "users/sign-up",
+      element: <SignUp />,
+    },
+    {
       path: "users/friends",
       element: <Friends />,
+    },
+    {
+      path: "users/new-thread",
+      element: <NewThread />,
     },
     {
       path: "users/profiles/:profileid",

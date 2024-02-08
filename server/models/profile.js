@@ -6,22 +6,7 @@ const ProfileSchema = new Schema({
   lastname: { type: String, required: true, maxLength: 30 },
   about: { type: String, maxLength: 200 },
   interests: { type: String, maxLength: 200 },
-  image: { data: Buffer, contentType: String }
+  image: { type: String, default: "https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg" }
 })
-
-// Save an image to the profile
-ProfileSchema.methods.saveImage = function(imagePath, callback) {
-  // Read the image file as binary data
-  fs.readFile(imagePath, (err, data) => {
-    if (err) {
-      return callback(err);
-    }
-    // Set the image data and content type
-    this.image.data = data
-    this.image.contentType = 'image/jpeg'
-    // Save the profile
-    this.save(callback);
-  });
-};
 
 module.exports = mongoose.model("Profile", ProfileSchema)

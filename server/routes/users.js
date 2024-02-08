@@ -124,7 +124,8 @@ router.post('/sign-up', [
         threads: []
       })
       const user = await userdetail.save()
-      res.redirect('/users/login')
+      //res.redirect('/users/login')
+      res.send({ msg: "success" })
       console.log(`Successfully created new user: ${user.firstname}`)
     } catch(err) {
       return next(err)
@@ -288,13 +289,14 @@ router.post('/threads/:threadid/messages', authenticateToken, async function (re
             name: `${user.firstname} ${user.lastname}`,
             msg: req.body.msg
           };
-          console.log(thread.messages)
+          //console.log(thread.messages)
 
           // Add message to thread
           thread.messages.push(newMessage);
           const savedThread = await thread.save();
 
-          return res.status(201).json(savedThread.messages);
+          const data = { success: true, thread: savedThread, user }
+          res.status(200).send(data);
         } else {
           return res.status(404).json({ error: "Thread not found" });
         }

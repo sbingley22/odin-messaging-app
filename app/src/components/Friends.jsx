@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import NavigationBar from "./NavigationBar"
-import { Container, Row, Col } from 'react-bootstrap';
+//import { Container, Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'
 
 const apiUrl = import.meta.env.VITE_API_URL

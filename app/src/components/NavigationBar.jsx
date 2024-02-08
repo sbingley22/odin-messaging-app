@@ -17,10 +17,11 @@ const NavigationBar = () => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <Nav.Link as={Link} to="/">Profile</Nav.Link>
-          <Nav.Link as={Link} to="/users/threads">Messages</Nav.Link>
+          <Nav.Link as={Link} to="/users/new-thread">New Thread</Nav.Link>
+          <Nav.Link as={Link} to="/users/threads">Threads</Nav.Link>
           <Nav.Link as={Link} to="/users/friends">Friends</Nav.Link>
         </Nav>
-        <Nav>
+        <Nav className="justify-content-end" style={{ marginLeft: "auto"}}>
           <Button variant="outline-primary" onClick={logout}>Logout</Button>
         </Nav>
       </Navbar.Collapse>

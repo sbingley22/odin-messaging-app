@@ -78,6 +78,41 @@ function App() {
     }
   };
 
+  const useDummy = async (e) => {
+    e.preventDefault()
+    try {
+      const url = `${apiUrl}users/login`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: "user1", password: "password1" }),
+      });
+      const jsonData = await response.json();
+      
+      // Handle successful login
+      console.log('Login successful:', jsonData);
+
+       // Check if the response contains an access token
+      if (jsonData && jsonData.accessToken) {
+        // Store the access token in local storage or a cookie
+        localStorage.setItem('accessToken', jsonData.accessToken);
+
+        fetchLoginData()
+      } else {
+        // Handle login error, if no access token is provided
+        console.error('No token provided!')
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+    }
+  }
+
+  const signup = () => {
+    navigate('/users/sign-up')
+  }
+
   return (
     <>
       <Form onSubmit={handleLogin}>
@@ -103,6 +138,14 @@ function App() {
 
         <Button variant="primary" type="submit">
           Login
+        </Button>
+
+        <Button variant="primary" onClick={signup} style={{ margin: "20px"}}>
+          Sign Up
+        </Button>
+
+        <Button variant="primary" onClick={useDummy} style={{ margin: "20px"}}>
+          Use Dummy Account
         </Button>
       </Form>
     </>

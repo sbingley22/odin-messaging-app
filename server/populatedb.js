@@ -36,7 +36,7 @@ async function main() {
   mongoose.connection.close();
 }
 
-async function createUser(index, username, password, firstname, lastname, about, interests) {
+async function createUser(index, username, password, firstname, lastname, about, interests, image) {
   return new Promise( (resolve, reject) => {
     bcrypt.hash(password, 10, async (err, hashedPassword) => {
       if (err) {
@@ -48,7 +48,8 @@ async function createUser(index, username, password, firstname, lastname, about,
           firstname: firstname,
           lastname: lastname,
           about: about,
-          interests: interests
+          interests: interests,
+          image: image
         }
 
         const profile = new Profile(profiledetail)
@@ -77,9 +78,9 @@ async function createUser(index, username, password, firstname, lastname, about,
 
 async function createUsers() {
   await Promise.all([
-    createUser(0, "user1", "password1", "Jane", "Doe", "I am an unknown person. Just fill in the blanks!", "I have no interests and all the interests."),
-    createUser(1, "user2", "password2", "John", "Doe", "I am an unknown person. Just fill in the blanks!", "I have no interests and all the interests."),
-    createUser(2, "user3", "password3", "Abby", "Able", "Ready, Willing, and Able sir!", "Everything!!!"),
+    createUser(0, "user1", "password1", "Jane", "Doe", "I am an unknown person. Just fill in the blanks!", "I have no interests and all the interests.", "https://img.freepik.com/free-photo/cheerful-good-looking-young-woman-wearing-white-shirt-with-blonde-hair-smiling-pleasantly-while-receiving-some-positive-news-pretty-girl-looking-with-joyful-smile_176420-13579.jpg?w=996&t=st=1707382032~exp=1707382632~hmac=a4857c027409ae6f01934dc25dc487f1e8fe546f0290a65627680855e56a8a94"),
+    createUser(1, "user2", "password2", "John", "Doe", "I am an unknown person. Just fill in the blanks!", "I have no interests and all the interests.", "https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg"),
+    createUser(2, "user3", "password3", "Abby", "Able", "Ready, Willing, and Able sir!", "Everything!!!", "https://img.freepik.com/free-photo/young-beautiful-woman-pink-warm-sweater-natural-look-smiling-portrait-isolated-long-hair_285396-896.jpg?size=626&ext=jpg&ga=GA1.1.34264412.1707350400&semt=ais"),
   ])
 }
 
